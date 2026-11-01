@@ -23,3 +23,8 @@ python3 -m http.server 8000
 - Isi log terminal di array `events` dan angka kursi (`TOTAL`, `TAKEN`) di `assets/script.js`.
 - Artikel riset, statistik, dan harga adalah contoh; ganti dengan data asli.
 - Form newsletter hanya front-end; hubungkan ke layanan email (mis. Buttondown, Mailchimp, Formspree).
+
+## Halaman artikel riset
+- Semua artikel ada di `assets/articles.js` (array `ARTICLES`). Tambah artikel = tambah satu objek.
+- Halaman detail: `artikel.html?id=<slug>` — berisi breadcrumb, progress bar membaca, daftar isi otomatis dari `<h2>`, tombol bagikan, artikel sebelumnya/berikutnya, dan artikel terkait.
+- Kartu riset di beranda dibuat otomatis dari data yang sama.

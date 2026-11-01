@@ -26,8 +26,9 @@ const io = new IntersectionObserver(entries => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-// Live agent terminal (simulated activity log)
+// Live agent terminal (simulated activity log) — hanya di beranda
 const term = document.getElementById('terminal');
+if (term) {
 const events = [
   ['sales', 'menjawab 3 pertanyaan prospek baru'],
   ['ops', 'memproses 12 pesanan → dikirim'],
@@ -61,6 +62,7 @@ cursorLine.innerHTML = '<span style="color:var(--primary)">atlas ❯</span> <spa
 term.appendChild(cursorLine);
 for (let i = 0; i < 6; i++) addLog();
 setInterval(addLog, 1600);
+}
 
 // Animated counters
 const countIO = new IntersectionObserver(entries => {
@@ -81,13 +83,27 @@ document.querySelectorAll('[data-count]').forEach(el => countIO.observe(el));
 
 // Membership seats (contoh angka — ganti dengan data asli)
 const TOTAL = 500, TAKEN = 362;
+const seatsEl = document.querySelector('.seats');
 const seatsIO = new IntersectionObserver(([e]) => {
   if (!e.isIntersecting) return;
   document.getElementById('seatsFill').style.width = (TAKEN / TOTAL * 100) + '%';
   document.getElementById('seatsLeft').textContent = TOTAL - TAKEN;
   seatsIO.disconnect();
 }, { threshold: 0.4 });
-seatsIO.observe(document.querySelector('.seats'));
+if (seatsEl) seatsIO.observe(seatsEl);
+
+// Kartu riset dari data artikel (assets/articles.js)
+const grid = document.getElementById('researchGrid');
+if (grid && window.ARTICLES) {
+  grid.innerHTML = ARTICLES.map(a => `
+    <a class="post reveal" data-cat="${a.cat}" href="artikel.html?id=${a.id}">
+      <span class="post__cat">${CATEGORY_LABEL[a.cat]}</span>
+      <h3>${a.title}</h3>
+      <p>${a.excerpt}</p>
+      <span class="post__meta">${formatDate(a.date)} · ${readingTime(a.body)} menit baca</span>
+    </a>`).join('');
+  grid.querySelectorAll('.reveal').forEach(el => io.observe(el));
+}
 
 // Research filter
 document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click', () => {
@@ -100,10 +116,12 @@ document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click'
 }));
 
 // Subscribe form (front-end only)
-document.getElementById('subscribeForm').addEventListener('submit', e => {
+document.querySelectorAll('.subscribe').forEach(form => form.addEventListener('submit', e => {
   e.preventDefault();
-  document.getElementById('formMsg').textContent = `✓ ${e.target.email.value} terdaftar. Sampai jumpa di inbox.`;
-  e.target.reset();
-});
+  const msg = form.parentElement.querySelector('.form__msg');
+  if (msg) msg.textContent = `✓ ${form.email.value} terdaftar. Sampai jumpa di inbox.`;
+  form.reset();
+}));
 
-document.getElementById('year').textContent = new Date().getFullYear();
+const yearEl = document.getElementById('year');
+if (yearEl) yearEl.textContent = new Date().getFullYear();

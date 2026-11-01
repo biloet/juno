@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Riset — Autonoma</title>
+  <meta name="description" content="Riset dan field notes tentang zero-human company dari Autonoma." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body class="page-article">
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+  <!-- Navbar -->
+  <header class="nav" id="top">
+    <div class="container nav__inner">
+      <a href="index.html" class="logo"><span class="logo__mark">◎</span>autonoma</a>
+      <nav class="nav__links" id="navLinks">
+        <a href="index.html#konsep">Konsep</a>
+        <a href="index.html#cara-kerja">Cara Kerja</a>
+        <a href="index.html#bangun">Bangun</a>
+        <a href="index.html#riset">Riset</a>
+        <a href="index.html#membership">Membership</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="index.html#membership" class="btn btn--primary btn--sm">Gabung</a>
+      </nav>
+      <button class="nav__toggle" id="navToggle" aria-label="Buka menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <main id="article">
+    <!-- Header artikel -->
+    <header class="article__head">
+      <div class="container container--narrow">
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="index.html">Beranda</a><span>/</span><a href="index.html#riset">Riset</a><span>/</span><span id="crumbCat"></span>
+        </nav>
+        <span class="post__cat" id="artCat"></span>
+        <h1 id="artTitle"></h1>
+        <p class="article__excerpt" id="artExcerpt"></p>
+        <div class="article__meta">
+          <span class="avatar-sm">◎</span>
+          <div><strong id="artAuthor"></strong><small><span id="artDate"></span> · <span id="artRead"></span> menit baca</small></div>
+          <div class="share">
+            <button class="share__btn" id="copyLink" type="button">Salin link</button>
+            <a class="share__btn" id="shareX" target="_blank" rel="noopener">Bagikan ke X</a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Isi + daftar isi -->
+    <div class="container article__layout">
+      <aside class="toc" aria-label="Daftar isi">
+        <span class="toc__title">Daftar isi</span>
+        <ol id="toc"></ol>
+      </aside>
+      <article class="prose" id="artBody"></article>
+    </div>
+
+    <!-- Prev / Next -->
+    <div class="container container--narrow">
+      <nav class="pager" id="pager" aria-label="Artikel lain"></nav>
+    </div>
+
+    <!-- Artikel terkait -->
+    <section class="section section--related">
+      <div class="container">
+        <div class="section__head">
+          <span class="eyebrow">// Baca juga</span>
+          <h2>Artikel terkait</h2>
+        </div>
+        <div class="grid grid--3" id="related"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Jika artikel tidak ditemukan -->
+  <section class="section notfound" id="notFound" hidden>
+    <div class="container container--narrow">
+      <span class="eyebrow">// 404</span>
+      <h1>Artikel tidak ditemukan</h1>
+      <p>Artikel yang Anda cari mungkin sudah dipindahkan atau tautannya salah.</p>
+      <a href="index.html#riset" class="btn btn--primary">← Kembali ke Riset</a>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta">
+    <div class="container cta__inner">
+      <h2>Dapatkan riset berikutnya<br /><span class="grad">langsung di inbox.</span></h2>
+      <p>Field notes, teardown, dan playbook baru setiap minggu.</p>
+      <form class="subscribe">
+        <input type="email" name="email" placeholder="email@anda.com" required aria-label="Email" />
+        <button type="submit" class="btn btn--primary">Gabung</button>
+      </form>
+      <p class="form__msg" role="status"></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__grid">
+      <div>
+        <a href="index.html" class="logo"><span class="logo__mark">◎</span>autonoma</a>
+        <p>Komunitas &amp; riset untuk perusahaan yang dijalankan agen AI.</p>
+      </div>
+      <div><h5>Jelajahi</h5><a href="index.html#konsep">Konsep</a><a href="index.html#cara-kerja">Cara Kerja</a><a href="index.html#riset">Riset</a></div>
+      <div><h5>Bangun</h5><a href="index.html#bangun">Atlas</a><a href="index.html#bangun">Swarm</a><a href="index.html#membership">Membership</a></div>
+      <div><h5>Sosial</h5><a href="#">X / Twitter</a><a href="#">LinkedIn</a><a href="#">GitHub</a></div>
+    </div>
+    <div class="container footer__bottom">
+      <span>© <span id="year"></span> Autonoma.</span>
+      <span class="mono">status: <span class="ok">● semua agen online</span></span>
+    </div>
+  </footer>
+
+  <a href="#top" class="to-top" id="toTop" aria-label="Kembali ke atas">↑</a>
+  <script src="assets/articles.js"></script>
+  <script src="assets/script.js"></script>
+  <script src="assets/article.js"></script>
+</body>
+</html>
