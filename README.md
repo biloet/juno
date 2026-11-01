@@ -1,22 +1,25 @@
-# Nusa Institute — Website Template
+# Autonoma — Zero-Human Company Landing Page
 
-Landing page statis (HTML + CSS + JavaScript murni) untuk lembaga pendidikan/pelatihan.
+Landing page statis (HTML + CSS + JavaScript murni) bertema **zero-human company**: perusahaan yang operasionalnya dijalankan agen AI, dengan manusia memegang arah dan tata kelola.
+
+## Bagian halaman
+Navbar · Hero dengan terminal log agen (simulasi live) · Ticker · Konsep (tradisional vs zero-human) · Cara Kerja · Bangun (Atlas & Swarm) · Riset (dengan filter) · Statistik · Membership (dengan kuota kursi) · FAQ · CTA newsletter · Footer
 
 ## Struktur
-- `index.html` — halaman utama (Navbar, Hero, Mitra, Tentang, Program, Keunggulan, Testimoni, FAQ, Kontak, Footer)
-- `assets/styles.css` — styling & responsive
-- `assets/script.js` — menu mobile, animasi scroll, counter, filter program, slider testimoni, form
+- `index.html` — konten halaman
+- `assets/styles.css` — tema gelap, responsive
+- `assets/script.js` — menu mobile, animasi scroll, terminal agen, counter, kuota kursi, filter riset, form
 
 ## Menjalankan
-Buka `index.html` langsung di browser, atau:
+Buka `index.html` di browser, atau:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-lalu kunjungi http://localhost:8000
-
 ## Kustomisasi
-- Ganti nama "Nusa Institute", teks, kontak, dan program di `index.html`.
-- Ubah warna utama di variabel `:root` pada `assets/styles.css`.
-- Form kontak hanya front-end; hubungkan ke backend / Formspree / WhatsApp sesuai kebutuhan.
+- Nama brand "Autonoma" dan agen "Atlas" adalah placeholder — ganti di `index.html`.
+- Warna di variabel `:root` pada `assets/styles.css`.
+- Isi log terminal di array `events` dan angka kursi (`TOTAL`, `TAKEN`) di `assets/script.js`.
+- Artikel riset, statistik, dan harga adalah contoh; ganti dengan data asli.
+- Form newsletter hanya front-end; hubungkan ke layanan email (mis. Buttondown, Mailchimp, Formspree).

@@ -26,14 +26,51 @@ const io = new IntersectionObserver(entries => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
+// Live agent terminal (simulated activity log)
+const term = document.getElementById('terminal');
+const events = [
+  ['sales', 'menjawab 3 pertanyaan prospek baru'],
+  ['ops', 'memproses 12 pesanan → dikirim'],
+  ['fin', 'rekonsiliasi transaksi harian: OK'],
+  ['mkt', 'menerbitkan artikel: "5 tips onboarding"'],
+  ['ops', 'tiket support #482 diselesaikan (2m 14s)'],
+  ['sales', 'mengirim penawaran ke 2 klien B2B'],
+  ['fin', 'pengeluaran iklan $38 / batas $50 ✓'],
+  ['mkt', 'A/B test headline: varian B +12% CTR'],
+  ['ops', 'memperbarui stok dari supplier'],
+  ['hum', 'persetujuan diminta: kontrak > $1.000'],
+  ['fin', 'laporan harian dikirim ke founder'],
+  ['sales', 'follow-up otomatis: 7 lead hangat'],
+];
+const pad = n => String(n).padStart(2, '0');
+let ei = 0;
+function addLog() {
+  const [ag, msg] = events[ei++ % events.length];
+  const d = new Date();
+  const line = document.createElement('div');
+  line.className = 'log' + (ag === 'hum' ? ' log--hum' : '');
+  line.innerHTML = `<time>${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}</time><span class="ag ag--${ag}">[${ag === 'hum' ? 'human' : ag}]</span>${msg}`;
+  const cursor = term.querySelector('.cursor-line');
+  term.insertBefore(line, cursor);
+  const logs = term.querySelectorAll('.log');
+  if (logs.length > 13) logs[0].remove();
+}
+const cursorLine = document.createElement('div');
+cursorLine.className = 'cursor-line';
+cursorLine.innerHTML = '<span style="color:var(--primary)">atlas ❯</span> <span class="cursor"></span>';
+term.appendChild(cursorLine);
+for (let i = 0; i < 6; i++) addLog();
+setInterval(addLog, 1600);
+
 // Animated counters
 const countIO = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (!e.isIntersecting) return;
-    const el = e.target, target = +el.dataset.count, start = performance.now(), dur = 1600;
+    const el = e.target, target = +el.dataset.count, suffix = el.dataset.suffix || '';
+    const start = performance.now(), dur = 1500;
     const tick = now => {
       const p = Math.min((now - start) / dur, 1);
-      el.textContent = Math.floor(target * (1 - Math.pow(1 - p, 3))).toLocaleString('id-ID') + (p === 1 && target >= 100 ? '+' : '');
+      el.textContent = Math.floor(target * (1 - Math.pow(1 - p, 3))) + suffix;
       if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
@@ -42,40 +79,30 @@ const countIO = new IntersectionObserver(entries => {
 }, { threshold: 0.5 });
 document.querySelectorAll('[data-count]').forEach(el => countIO.observe(el));
 
-// Program filter
+// Membership seats (contoh angka — ganti dengan data asli)
+const TOTAL = 500, TAKEN = 362;
+const seatsIO = new IntersectionObserver(([e]) => {
+  if (!e.isIntersecting) return;
+  document.getElementById('seatsFill').style.width = (TAKEN / TOTAL * 100) + '%';
+  document.getElementById('seatsLeft').textContent = TOTAL - TAKEN;
+  seatsIO.disconnect();
+}, { threshold: 0.4 });
+seatsIO.observe(document.querySelector('.seats'));
+
+// Research filter
 document.querySelectorAll('.filter').forEach(btn => btn.addEventListener('click', () => {
   document.querySelectorAll('.filter').forEach(b => b.classList.remove('is-active'));
   btn.classList.add('is-active');
   const f = btn.dataset.filter;
-  document.querySelectorAll('#programGrid .card').forEach(card => {
-    card.classList.toggle('is-hidden', f !== 'all' && card.dataset.cat !== f);
+  document.querySelectorAll('#researchGrid .post').forEach(p => {
+    p.classList.toggle('is-hidden', f !== 'all' && p.dataset.cat !== f);
   });
 }));
 
-// Testimonial slider
-const track = document.getElementById('sliderTrack');
-const dotsWrap = document.getElementById('sliderDots');
-const slides = track.children.length;
-let current = 0, timer;
-for (let i = 0; i < slides; i++) {
-  const d = document.createElement('button');
-  d.setAttribute('aria-label', `Testimoni ${i + 1}`);
-  d.addEventListener('click', () => { go(i); restart(); });
-  dotsWrap.appendChild(d);
-}
-function go(i) {
-  current = (i + slides) % slides;
-  track.style.transform = `translateX(-${current * 100}%)`;
-  [...dotsWrap.children].forEach((d, idx) => d.classList.toggle('is-active', idx === current));
-}
-function restart() { clearInterval(timer); timer = setInterval(() => go(current + 1), 5000); }
-go(0); restart();
-
-// Contact form (front-end only)
-document.getElementById('contactForm').addEventListener('submit', e => {
+// Subscribe form (front-end only)
+document.getElementById('subscribeForm').addEventListener('submit', e => {
   e.preventDefault();
-  const name = e.target.nama.value.trim();
-  document.getElementById('formMsg').textContent = `Terima kasih, ${name}! Tim kami akan segera menghubungi Anda.`;
+  document.getElementById('formMsg').textContent = `✓ ${e.target.email.value} terdaftar. Sampai jumpa di inbox.`;
   e.target.reset();
 });
 
